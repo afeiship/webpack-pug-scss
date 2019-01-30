@@ -1,16 +1,16 @@
-const path = require('path')
+const path = require('path');
 
-const glob = require('glob')
-const webpack = require('webpack')
-const merge = require('webpack-merge')
-const HtmlPlugin = require('html-webpack-plugin')
-const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
-const StylelintPlugin = require('stylelint-webpack-plugin')
-const ManifestPlugin = require('webpack-manifest-plugin')
-const CleanPlugin = require('clean-webpack-plugin')
-const { StatsWriterPlugin } = require('webpack-stats-plugin')
+const glob = require('glob');
+const webpack = require('webpack');
+const merge = require('webpack-merge');
+const HtmlPlugin = require('html-webpack-plugin');
+const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
+const StylelintPlugin = require('stylelint-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
+const CleanPlugin = require('clean-webpack-plugin');
+const { StatsWriterPlugin } = require('webpack-stats-plugin');
 
-const parts = require('./webpack.parts')
+const parts = require('./webpack.parts');
 
 const lintJSOptions = {
   emitWarning: true,
@@ -23,7 +23,7 @@ const lintJSOptions = {
   cache: true,
 
   formatter: require('eslint-friendly-formatter')
-}
+};
 
 /*
   To move all assets to some static folder
@@ -45,16 +45,16 @@ const lintJSOptions = {
            css - 'styles',
             js - 'scripts'
 */
-const paths = getPaths()
+const paths = getPaths();
 
 const lintStylesOptions = {
   context: path.resolve(__dirname, `${paths.app}/styles`),
   syntax: 'scss',
   emitErrors: false
   // fix: true,
-}
+};
 
-const cssPreprocessorLoader = { loader: 'fast-sass-loader' }
+const cssPreprocessorLoader = { loader: 'fast-sass-loader' };
 
 const commonConfig = merge([
   {
@@ -69,7 +69,7 @@ const commonConfig = merge([
       publicPath: parts.publicPath
     },
     stats: {
-      warningsFilter: warning => warning.includes('entrypoint size limit'),
+      warningsFilter: (warning) => warning.includes('entrypoint size limit'),
       children: false,
       modules: false
     },
@@ -92,7 +92,7 @@ const commonConfig = merge([
       name: `${paths.fonts}/[name].[hash:8].[ext]`
     }
   })
-])
+]);
 
 const productionConfig = merge([
   {
@@ -113,7 +113,7 @@ const productionConfig = merge([
       maxAssetSize: 450000 // in bytes
     },
     plugins: [
-      new StatsWriterPlugin({ fields: null, filename: '../stats.json' }),
+      new StatsWriterPlugin({ fields: null, filename: './stats.json' }),
       new webpack.HashedModuleIdsPlugin(),
       new ManifestPlugin(),
       new CleanPlugin(paths.build)
@@ -189,7 +189,7 @@ const productionConfig = merge([
   }),
   // should go after loading images
   parts.optimizeImages()
-])
+]);
 
 const developmentConfig = merge([
   {
@@ -202,37 +202,40 @@ const developmentConfig = merge([
   parts.loadCSS({ include: paths.app, use: [cssPreprocessorLoader] }),
   parts.loadImages({ include: paths.app }),
   parts.loadJS({ include: paths.app })
-])
+]);
 
-module.exports = env => {
-  process.env.NODE_ENV = env
+module.exports = (env) => {
+  process.env.NODE_ENV = env;
 
   return merge(
     commonConfig,
     env === 'production' ? productionConfig : developmentConfig
-  )
-}
+  );
+};
 
-function getPaths ({
+function getPaths({
   sourceDir = 'app',
-  buildDir = 'build',
+  buildDir = 'dist',
   staticDir = '',
   images = 'images',
   fonts = 'fonts',
   js = 'scripts',
   css = 'styles'
 } = {}) {
-  const assets = { images, fonts, js, css }
+  const assets = { images, fonts, js, css };
 
-  return Object.keys(assets).reduce((obj, assetName) => {
-    const assetPath = assets[assetName]
+  return Object.keys(assets).reduce(
+    (obj, assetName) => {
+      const assetPath = assets[assetName];
 
-    obj[assetName] = !staticDir ? assetPath : `${staticDir}/${assetPath}`
+      obj[assetName] = !staticDir ? assetPath : `${staticDir}/${assetPath}`;
 
-    return obj
-  }, {
-    app: path.join(__dirname, sourceDir),
-    build: path.join(__dirname, buildDir),
-    staticDir
-  })
+      return obj;
+    },
+    {
+      app: path.join(__dirname, sourceDir),
+      build: path.join(__dirname, buildDir),
+      staticDir
+    }
+  );
 }
