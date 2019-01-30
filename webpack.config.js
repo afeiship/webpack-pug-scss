@@ -230,7 +230,6 @@ function getPaths({
 
       obj[assetName] = !staticDir ? assetPath : `${staticDir}/${assetPath}`;
 
-      console.log(obj);
       return obj;
     },
     {
