@@ -214,7 +214,7 @@ module.exports = (env) => {
 };
 
 function getPaths({
-  sourceDir = 'app',
+  sourceDir = 'src',
   buildDir = 'dist',
   staticDir = '',
   images = 'images',
