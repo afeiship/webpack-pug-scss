@@ -1,7 +1,7 @@
 {
   "name": "webpack-pug-scss",
   "version": "1.0.0",
-  "description": "A webpack boilerplate for building web apps",
+  "description": "A webpack boilerplate for building web apps.",
   "main": "./app/scripts/index.js",
   "author": "afei",
   "license": "MIT",
