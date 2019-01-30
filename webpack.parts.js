@@ -1,12 +1,12 @@
-const PurifyCSSPlugin = require('purifycss-webpack')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const TerserPlugin = require('terser-webpack-plugin')
+const PurifyCSSPlugin = require('purifycss-webpack');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
-const publicPath = '/'
+const publicPath = '/';
 
-exports.publicPath = publicPath
+exports.publicPath = publicPath;
 
 exports.devServer = ({ host, port } = {}) => ({
   devServer: {
@@ -37,7 +37,7 @@ exports.devServer = ({ host, port } = {}) => ({
       warnings: false
     }
   }
-})
+});
 
 exports.loadPug = (options) => ({
   module: {
@@ -56,7 +56,7 @@ exports.loadPug = (options) => ({
       }
     ]
   }
-})
+});
 
 exports.lintJS = ({ include, exclude, options }) => ({
   module: {
@@ -71,7 +71,7 @@ exports.lintJS = ({ include, exclude, options }) => ({
       }
     ]
   }
-})
+});
 
 const sharedCSSLoaders = [
   {
@@ -80,20 +80,18 @@ const sharedCSSLoaders = [
       localIdentName: '[hash:base64:5]'
     }
   }
-]
+];
 
 exports.autoprefix = () => ({
   loader: 'postcss-loader',
   options: {
     plugins: () => [require('autoprefixer')]
   }
-})
+});
 
 exports.purifyCSS = (options) => ({
-  plugins: [
-    new PurifyCSSPlugin(options)
-  ]
-})
+  plugins: [new PurifyCSSPlugin(options)]
+});
 
 exports.minifyCSS = ({ options }) => ({
   optimization: {
@@ -104,7 +102,7 @@ exports.minifyCSS = ({ options }) => ({
       })
     ]
   }
-})
+});
 
 exports.loadCSS = ({ include, exclude, use } = {}) => ({
   module: {
@@ -124,7 +122,7 @@ exports.loadCSS = ({ include, exclude, use } = {}) => ({
       }
     ]
   }
-})
+});
 
 exports.extractCSS = ({ include, exclude, options, use = [] } = {}) => ({
   module: {
@@ -139,10 +137,8 @@ exports.extractCSS = ({ include, exclude, options, use = [] } = {}) => ({
       }
     ]
   },
-  plugins: [
-    new MiniCssExtractPlugin(options)
-  ]
-})
+  plugins: [new MiniCssExtractPlugin(options)]
+});
 
 exports.loadImages = ({ include, exclude, options } = {}) => ({
   module: {
@@ -160,7 +156,7 @@ exports.loadImages = ({ include, exclude, options } = {}) => ({
       }
     ]
   }
-})
+});
 
 exports.optimizeImages = ({ include, exclude } = {}) => ({
   module: {
@@ -172,7 +168,6 @@ exports.optimizeImages = ({ include, exclude } = {}) => ({
         exclude,
 
         use: {
-
           loader: 'image-webpack-loader',
 
           options: {
@@ -202,7 +197,7 @@ exports.optimizeImages = ({ include, exclude } = {}) => ({
       }
     ]
   }
-})
+});
 
 exports.loadFonts = ({ include, exclude, options } = {}) => ({
   module: {
@@ -221,7 +216,7 @@ exports.loadFonts = ({ include, exclude, options } = {}) => ({
       }
     ]
   }
-})
+});
 
 exports.loadJS = ({ include, exclude, options } = {}) => ({
   module: {
@@ -237,21 +232,17 @@ exports.loadJS = ({ include, exclude, options } = {}) => ({
       }
     ]
   }
-})
+});
 
-exports.minifyJS = options => ({
+exports.minifyJS = (options) => ({
   optimization: {
-    minimizer: [
-      new TerserPlugin(options)
-    ]
+    minimizer: [new TerserPlugin(options)]
   }
-})
+});
 
 exports.page = ({
   path = '',
-  template = require.resolve(
-    'html-webpack-plugin/default_index.ejs'
-  ),
+  template = require.resolve('html-webpack-plugin/default_index.ejs'),
   title,
   entry,
   chunks
@@ -265,4 +256,4 @@ exports.page = ({
       chunks
     })
   ]
-})
+});

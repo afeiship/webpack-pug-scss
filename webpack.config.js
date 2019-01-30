@@ -63,7 +63,10 @@ const commonConfig = merge([
       unsafeCache: true,
       symlinks: false
     },
-    entry: `${paths.src}/scripts`,
+    entry: {
+      index: `${paths.src}/scripts/index.js`,
+      about: `${paths.src}/scripts/about.js`
+    },
     output: {
       path: paths.dist,
       publicPath: parts.publicPath
@@ -75,7 +78,14 @@ const commonConfig = merge([
     },
     plugins: [
       new HtmlPlugin({
-        template: './index.pug'
+        chunks: ['index'],
+        template: './index.pug',
+        filename: 'index.html'
+      }),
+      new HtmlPlugin({
+        chunks: ['about'],
+        template: './about.pug',
+        filename: 'about.html'
       }),
       new FriendlyErrorsPlugin(),
       new StylelintPlugin(lintStylesOptions)
@@ -206,7 +216,6 @@ const developmentConfig = merge([
 
 module.exports = (env) => {
   process.env.NODE_ENV = env;
-
   return merge(
     commonConfig,
     env === 'production' ? productionConfig : developmentConfig
