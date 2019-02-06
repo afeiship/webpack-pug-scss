@@ -63,7 +63,10 @@ const commonConfig = merge([
       unsafeCache: true,
       symlinks: false
     },
-    entry: [`${paths.src}/scripts/index.js`, `${paths.src}/scripts/about.js`],
+    entry: {
+      index: `${paths.src}/scripts/index.js`,
+      about: `${paths.src}/scripts/about.js`
+    },
     output: {
       path: paths.dist,
       publicPath: parts.publicPath
