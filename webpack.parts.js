@@ -109,6 +109,11 @@ exports.loadCSS = ({ include, exclude, use } = {}) => ({
     rules: [
       {
         test: /\.scss$/,
+        loader: 'import-glob-loader',
+        enforce: 'pre'
+      },
+      {
+        test: /\.scss$/,
 
         include,
         exclude,

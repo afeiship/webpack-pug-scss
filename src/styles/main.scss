@@ -1,6 +1,7 @@
-@import 'fonts';
+@import "fonts";
+@import "./components/*.scss";
 
 body {
-  font-family: 'Open Sans', sans-serif;
-  background-color: cornflowerblue;
+  font-family: "Open Sans", sans-serif;
+  // background-color: cornflowerblue;
 }
